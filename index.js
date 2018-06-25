@@ -72,13 +72,12 @@ module.exports = function onerror(app, options) {
     type = type || 'text';
     if (options.all) {
       options.all.call(this, err, this);
+    }
+    if (options.redirect && type !== 'json') {
+      this.redirect(options.redirect);
     } else {
-      if (options.redirect && type !== 'json') {
-        this.redirect(options.redirect);
-      } else {
-        options[type].call(this, err, this);
-        this.type = type;
-      }
+      options[type].call(this, err, this);
+      this.type = type;
     }
 
     if (type === 'json') {
